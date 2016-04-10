@@ -40,6 +40,8 @@ import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod(modid = Constants.MODID, version = Constants.VERSION)
 public class AlchemyModLoader {
@@ -130,6 +132,9 @@ public class AlchemyModLoader {
 			try {
 				Class<?> clazz = Class.forName(name, false, loader);
 				for (Init init : clazz.getAnnotationsByType(Init.class)) {
+					SideOnly[] side = clazz.getAnnotationsByType(SideOnly.class);
+					if (side.length > 0 && Alway.getSide() != side[0].value())
+						break;
 					List<Class<?>> list = init_map.get(init.state());
 					if (list == null)
 						init_map.put(init.state(), list = new LinkedList<Class<?>>());

@@ -7,7 +7,9 @@ import net.minecraft.block.BlockTallGrass;
 import net.minecraft.init.Blocks;
 
 public class Elemix {
+	
 	public static boolean blockCanToIce(Block block) {
 		return block == Blocks.air || block instanceof BlockTallGrass || block instanceof BlockSnow || block instanceof BlockLiquid;
 	}
+	
 }
