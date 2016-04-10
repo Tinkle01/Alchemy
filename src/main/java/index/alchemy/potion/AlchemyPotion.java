@@ -1,12 +1,12 @@
 package index.alchemy.potion;
 
+import index.alchemy.core.AlchemyResourceLocation;
 import index.alchemy.core.CommonProxy;
-import index.alchemy.core.EventSystem;
+import index.alchemy.core.AlchemyEventSystem;
 import index.alchemy.core.IPlayerTickable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.ResourceLocation;
 
 public class AlchemyPotion extends Potion {
 	
@@ -14,6 +14,11 @@ public class AlchemyPotion extends Potion {
 	
 	@Override
 	public boolean isReady(int tick, int level) {
+        return ready;
+    }
+	
+	@Override
+	public boolean isInstant() {
         return ready;
     }
 	
@@ -29,9 +34,9 @@ public class AlchemyPotion extends Potion {
 	public AlchemyPotion(String name, boolean isbad, int color, boolean ready) {
 		super(isbad, color);
 		this.ready = ready;
-		potionRegistry.register(-1, new ResourceLocation(name), this);
+		potionRegistry.register(-1, new AlchemyResourceLocation(name), this);
 		if (this instanceof IPlayerTickable) 
-			EventSystem.registerPlayerTickable((IPlayerTickable) this);
+			AlchemyEventSystem.registerPlayerTickable((IPlayerTickable) this);
 	}
 	
 }

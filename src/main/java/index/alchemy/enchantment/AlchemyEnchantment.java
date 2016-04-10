@@ -1,9 +1,9 @@
 package index.alchemy.enchantment;
 
+import index.alchemy.core.AlchemyResourceLocation;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.util.ResourceLocation;
 
 public class AlchemyEnchantment extends Enchantment {
 	
@@ -31,10 +31,10 @@ public class AlchemyEnchantment extends Enchantment {
         return max_level;
     }
 
-	public AlchemyEnchantment(Rarity rarity, EnumEnchantmentType type, int max_level, EntityEquipmentSlot... slots) {
+	public AlchemyEnchantment(String name, Rarity rarity, EnumEnchantmentType type, int max_level, EntityEquipmentSlot... slots) {
 		super(rarity, type, slots);
 		this.max_level = max_level;
-		enchantmentRegistry.register(-1, new ResourceLocation(""), this);
+		enchantmentRegistry.register(-1, new AlchemyResourceLocation(name), this);
 	}
 
 }

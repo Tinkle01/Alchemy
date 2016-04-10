@@ -10,6 +10,7 @@ import index.alchemy.network.AlchemyNetworkHandler;
 import index.alchemy.network.MessageSpaceRingPickUp;
 import index.alchemy.potion.AlchemyPotionLoader;
 import index.alchemy.potion.PotionEternal;
+import index.alchemy.potion.PotionMultipleXP;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -24,22 +25,26 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerChest;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EventSystem implements IGuiHandler {
+public class AlchemyEventSystem implements IGuiHandler {
 	
 	public static final List<IPlayerTickable> 
 			SERVER_TICKABLE = new LinkedList<IPlayerTickable>(),
@@ -79,6 +84,11 @@ public class EventSystem implements IGuiHandler {
 	public void onLivingHurt(LivingHurtEvent event) {
 		((PotionEternal) AlchemyPotionLoader.eternal).onLivingHurt(event);
 	}
+	
+	@SubscribeEvent
+	public void onPlayerPickupXP(PlayerPickupXpEvent event) {
+		((PotionMultipleXP) AlchemyPotionLoader.multiple_xp).onPlayerPickupXP(event);
+	}
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -96,6 +106,11 @@ public class EventSystem implements IGuiHandler {
 				return new GuiChest(player.inventory, AlchemyItemLoader.ring_space.getItemInventory(player));
 		}
 		return null;
+	}
+	
+	public AlchemyEventSystem(Object mod) {
+		MinecraftForge.EVENT_BUS.register(this);
+		NetworkRegistry.INSTANCE.registerGuiHandler(mod, this);
 	}
 
 }

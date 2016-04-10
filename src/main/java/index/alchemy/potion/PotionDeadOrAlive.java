@@ -12,11 +12,6 @@ public class PotionDeadOrAlive extends AlchemyPotion {
 	public Random random = new Random();
 	
 	@Override
-	public boolean isInstant() {
-        return true;
-    }
-
-	@Override
 	public void performEffect(EntityLivingBase living, int level) {
 		float f = random.nextFloat() * living.getMaxHealth() * 2 - living.getMaxHealth();
 		if (f > 0)

@@ -43,11 +43,29 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 @Mod(modid = Constants.MODID, version = Constants.VERSION)
 public class AlchemyModLoader {
+	
+	public static final Logger logger = LogManager.getLogger(Constants.MODID);
+	
 	@Instance(Constants.MODID)
 	public static AlchemyModLoader instance;
-	public static EventSystem eventHook = new EventSystem();
-	public static Config config = new Config();
-	public static Logger logger = LogManager.getLogger(Constants.MODID);
+	
+	private AlchemyEventSystem event_system;
+	private Config config;
+	
+	public AlchemyEventSystem getEventSystem() {
+		return event_system;
+	}
+	
+	public Config getConfig() {
+		return config;
+	}
+	
+	public AlchemyModLoader() {
+		if (instance != null)
+			throw new RuntimeException("Before this has been instantiate.");
+		event_system = new AlchemyEventSystem(this);
+		config = new Config();
+	}
 	
 	public static final String mc_dir;
 	public static final boolean is_modding;
@@ -135,13 +153,12 @@ public class AlchemyModLoader {
 			logger.info("Successful init class: " + clazz.getName());
 		} catch (Exception e) {
 			logger.error("Failed to init class: " + clazz.getName());
+			e.printStackTrace();
 		}
 	}
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		MinecraftForge.EVENT_BUS.register(eventHook);
-		NetworkRegistry.INSTANCE.registerGuiHandler(this, eventHook);
 		init(event.getModState());
 	}
 	
