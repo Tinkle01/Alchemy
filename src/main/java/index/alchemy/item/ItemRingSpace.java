@@ -16,8 +16,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
-import index.alchemy.core.AlchemyLanguageManager;
 import index.alchemy.core.AlchemyModLoader;
 import index.alchemy.core.Constants;
 import index.alchemy.item.AlchemyItemBauble.AlchemyItemRing;
@@ -36,7 +36,7 @@ public class ItemRingSpace extends AlchemyItemRing implements IItemInventory {
 		if (content == null)
 			return null;
 		return new ItemInventory(player, content, size, 
-				AlchemyLanguageManager.getString("inventory." + getUnlocalizedName().substring(Constants.ITEM)));
+				I18n.translateToLocal("inventory." + getUnlocalizedName().substring(Constants.ITEM)));
 	}
 	
 	public ItemRingSpace() {

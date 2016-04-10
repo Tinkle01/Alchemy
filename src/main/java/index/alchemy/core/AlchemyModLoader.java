@@ -74,14 +74,9 @@ public class AlchemyModLoader {
 	public static Map<ModState, List<Class<?>>> init_map = new LinkedHashMap<ModState, List<Class<?>>>();
 	
 	static {
-		String str = null, mod_path;
-		try {
-			str = AlchemyModLoader.class.getResource("/alchemy.info").toURI().toString()
-					.replace("file:/", "").replace("\\", "/")
-					.replace("/bin/alchemy.info", "");
-		} catch (URISyntaxException e) {
-			throw new RuntimeException(e.getMessage());
-		}
+		String str = AlchemyModLoader.class.getResource("/alchemy.info").toString()
+				.replace("file:/", "").replace("\\", "/")
+				.replace("/bin/alchemy.info", ""), mod_path;
 		
 		if (!str.contains("alchemy.info")) {
 			mod_path = str + "/bin/";
