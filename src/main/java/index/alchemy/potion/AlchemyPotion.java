@@ -12,6 +12,7 @@ public class AlchemyPotion extends Potion {
 	
 	private boolean ready;
 	
+	
 	@Override
 	public boolean isReady(int tick, int level) {
         return ready;
