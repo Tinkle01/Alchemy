@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+		"top": "alchemy:blocks/ice_temp",
+        "front": "alchemy:blocks/ice_temp",
+        "side": "alchemy:blocks/ice_temp"
+    }
+}
