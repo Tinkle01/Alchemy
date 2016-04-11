@@ -1,6 +1,5 @@
 package index.alchemy.item;
 
-import index.alchemy.core.AlchemyLanguageManager;
 import index.alchemy.core.AlchemyModLoader;
 import index.alchemy.core.AlchemyResourceLocation;
 import index.alchemy.core.Constants;
@@ -19,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.common.brewing.IBrewingRecipe;
 import net.minecraftforge.fml.relauncher.Side;
@@ -95,7 +95,7 @@ public class ItemMagicSolvent extends AlchemyItem implements IItemColor, IBrewin
 		
 		@Override
 		public String toString() {
-			return AlchemyLanguageManager.getString("solvent.type." + name().toLowerCase());
+			return I18n.translateToLocal("solvent.type." + name().toLowerCase());
 		}
 		
 		public String getTextWithoutFormattingCodes() {

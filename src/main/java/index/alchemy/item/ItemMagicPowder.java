@@ -1,6 +1,5 @@
 package index.alchemy.item;
 
-import index.alchemy.core.AlchemyLanguageManager;
 import index.alchemy.core.AlchemyModLoader;
 import index.alchemy.core.AlchemyResourceLocation;
 
