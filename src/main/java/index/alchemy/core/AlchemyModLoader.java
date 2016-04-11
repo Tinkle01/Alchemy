@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -31,6 +32,7 @@ import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.launchwrapper.LaunchClassLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.LoaderState.ModState;
 import net.minecraftforge.fml.common.Mod;
@@ -52,21 +54,19 @@ public class AlchemyModLoader {
 	public static AlchemyModLoader instance;
 	
 	private AlchemyEventSystem event_system;
-	private Config config;
+	private AlchemyConfigLoader config;
 	
 	public AlchemyEventSystem getEventSystem() {
 		return event_system;
 	}
 	
-	public Config getConfig() {
+	public AlchemyConfigLoader getConfig() {
 		return config;
 	}
 	
 	public AlchemyModLoader() {
 		if (instance != null)
 			throw new RuntimeException("Before this has been instantiate.");
-		event_system = new AlchemyEventSystem(this);
-		config = new Config();
 	}
 	
 	public static final String mc_dir;
@@ -88,11 +88,11 @@ public class AlchemyModLoader {
 			is_modding = false;
 		}
 		
+		List<String> class_list = new LinkedList<String>();
+		
 		try {
 			mod_path = URLDecoder.decode(mod_path, "utf-8");
 		} catch (UnsupportedEncodingException e) { e.printStackTrace(); }
-		
-		List<String> class_list = new LinkedList<String>();
 		
 		if (is_modding) {
 			List<String> temp = new LinkedList<String>();
@@ -137,14 +137,17 @@ public class AlchemyModLoader {
 				}
 			} catch (ClassNotFoundException e) {}
 		}
+		
 	}
 	
 	@SidedProxy(clientSide = Constants.PACKAGE + ".core.ClientProxy", serverSide = Constants.PACKAGE + ".core.CommonProxy")
 	public static CommonProxy commonProxy;
 	
 	public static void init(ModState state) {
+		logger.info("************************************   " + state + " START   ************************************");
 		for (Class clazz : init_map.get(state))
 			init(clazz);
+		logger.info("************************************   " + state + "  END    ************************************");
 	}
 	
 	public static void init(Class<?> clazz) {
@@ -158,7 +161,9 @@ public class AlchemyModLoader {
 	}
 	
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
+	public void preInit(FMLPreInitializationEvent event) throws ClassNotFoundException {
+		event_system = new AlchemyEventSystem(this);
+		config = new AlchemyConfigLoader(event);
 		init(event.getModState());
 	}
 	

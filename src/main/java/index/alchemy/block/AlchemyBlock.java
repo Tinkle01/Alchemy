@@ -11,6 +11,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -42,10 +43,11 @@ public class AlchemyBlock extends Block implements IResourceLocation {
 	}
 	
 	public void registerBlock() {
+		Item item = new ItemBlock(this).setRegistryName(getRegistryName());
 		GameRegistry.register(this);
+		GameRegistry.register(item);
 		AlchemyBlockLoader.ALL_BLOCK.add(this);
 		if (Alway.isClient()) {
-			Item item = Item.getItemFromBlock(this);
 			ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(
 					getResourceLocation(), "inventory"));
 			item.setFull3D();
